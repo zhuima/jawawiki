@@ -1,9 +1,12 @@
 package com.zhuima.jawawiki.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -13,4 +16,11 @@ public class HelloWorldController {
     public String hello() {
         return "Hello World";
     }
+
+
+    @PostMapping("hello")
+    public ResponseEntity<?> hello(@RequestBody String message) {
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
 }
