@@ -2,6 +2,7 @@ package com.zhuima.jawawiki.controller;
 
 
 import com.zhuima.jawawiki.domain.Ebook;
+import com.zhuima.jawawiki.req.EbookReq;
 import com.zhuima.jawawiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,8 @@ public class EbookController {
 
 
     @GetMapping("ebooks")
-    public List<Ebook> list() {
-        return ebookService.list();
+    public List<Ebook> list(EbookReq req) {
+        return ebookService.list(req);
     }
 
 

@@ -1,0 +1,14 @@
+### GET Ebook List by Name
+GET http://localhost:8080/ebooks?name=Python
+Content-Type: application/json
+
+
+### GET Ebook List by id
+GET http://localhost:8080/ebooks?description=Python
+Content-Type: application/json
+
+
+
+### GET Ebook By id
+GET http://localhost:8080/ebooks/3
+Content-Type: application/json
