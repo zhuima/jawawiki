@@ -2,11 +2,13 @@ package com.zhuima.jawawiki.service;
 
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhuima.jawawiki.domain.Ebook;
 import com.zhuima.jawawiki.domain.EbookExample;
 import com.zhuima.jawawiki.mapper.EbookMapper;
 import com.zhuima.jawawiki.req.EbookReq;
 import com.zhuima.jawawiki.resp.EbookResp;
+import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.util.CopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class EbookService {
     private EbookMapper ebookMapper;
 
 
-    public List<EbookResp> list(EbookReq req) {
+    public PageResp<EbookResp> list(EbookReq req) {
 
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
@@ -32,20 +34,19 @@ public class EbookService {
         }
 
 
-        PageHelper.startPage(1, 3);
+        PageHelper.startPage(req.getPage(), req.getSize());
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
 
-//        List<EbookResp> repoList = new ArrayList<>();
-//
-//        for (Ebook ebook: ebookList) {
-//            EbookResp ebookResp = new EbookResp();
-//            BeanUtils.copyProperties(ebook, ebookResp);
-//            repoList.add(ebookResp);
-//        }
+
+
 
         List<EbookResp> repoList = CopyUtil.copyList(ebookList, EbookResp.class);
-        return repoList;
+        PageResp<EbookResp> pageResp = new PageResp();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(repoList);
+        return pageResp;
 
     }
 

@@ -5,14 +5,13 @@ import com.zhuima.jawawiki.domain.Ebook;
 import com.zhuima.jawawiki.req.EbookReq;
 import com.zhuima.jawawiki.resp.CommonResp;
 import com.zhuima.jawawiki.resp.EbookResp;
+import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -24,8 +23,8 @@ public class EbookController {
 
     @GetMapping("ebooks")
     public CommonResp list(EbookReq req) {
-        CommonResp<List<EbookResp>> resp = new CommonResp<>();
-        List<EbookResp> list = ebookService.list(req);
+        CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
+        PageResp<EbookResp> list = ebookService.list(req);
         resp.setContent(list);
         return resp;
     }
