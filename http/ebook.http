@@ -3,7 +3,12 @@ GET http://localhost:8080/ebooks?name=Python
 Content-Type: application/json
 
 
-### GET Ebook List by id
+### GET Ebook List no pageinfo
+GET http://localhost:8080/ebooks
+Content-Type: application/json
+
+
+### GET Ebook List by pageinfo
 GET http://localhost:8080/ebooks?page=1&size=10
 Content-Type: application/json
 

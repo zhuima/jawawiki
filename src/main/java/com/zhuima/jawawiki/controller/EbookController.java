@@ -11,6 +11,8 @@ import com.zhuima.jawawiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/")
 public class EbookController {
@@ -38,7 +40,7 @@ public class EbookController {
      * @return
      */
     @GetMapping("ebooks")
-    public CommonResp list(EbookReq req) {
+    public CommonResp list(@Valid EbookReq req) {
         CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
         PageResp<EbookResp> list = ebookService.list(req);
         resp.setContent(list);
