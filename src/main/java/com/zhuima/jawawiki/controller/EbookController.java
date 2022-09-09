@@ -19,6 +19,11 @@ public class EbookController {
     private EbookService ebookService;
 
 
+    /**
+     * 新增或更新书籍
+     * @param req
+     * @return
+     */
     @PostMapping("ebooks")
     public CommonResp save(@RequestBody EbookSaveReq req) {
         CommonResp resp = new CommonResp<>();
@@ -27,7 +32,11 @@ public class EbookController {
     }
 
 
-
+    /**
+     * 获取书籍清单
+     * @param req
+     * @return
+     */
     @GetMapping("ebooks")
     public CommonResp list(EbookReq req) {
         CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
@@ -37,12 +46,30 @@ public class EbookController {
     }
 
 
-
-
-
+    /**
+     * 获取某个书籍
+     * @param id
+     * @return
+     */
     @GetMapping("ebooks/{id}")
     public Ebook getById(@PathVariable Long id) {
         return ebookService.getById(id);
     }
+
+
+    /**
+     * 删除一个书籍
+     * @param id
+     * @return
+     */
+    @DeleteMapping ("ebooks/{id}")
+    public CommonResp deleteById(@PathVariable Long id) {
+        CommonResp resp = new CommonResp<>();
+        ebookService.deleteById(id);
+        return resp;
+    }
+
+
+
 }
 

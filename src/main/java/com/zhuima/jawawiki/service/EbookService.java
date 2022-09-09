@@ -70,4 +70,15 @@ public class EbookService {
     public Ebook getById(Long id) {
         return ebookMapper.selectByPrimaryKey(id);
     }
+
+
+    /**
+     * 删除一个书籍
+     *
+     * @param id
+     * @return
+     */
+    public int deleteById(Long id) {
+        return ebookMapper.deleteByPrimaryKey(id);
+    }
 }
