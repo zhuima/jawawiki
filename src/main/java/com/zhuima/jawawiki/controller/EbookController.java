@@ -3,6 +3,8 @@ package com.zhuima.jawawiki.controller;
 
 import com.zhuima.jawawiki.domain.Ebook;
 import com.zhuima.jawawiki.req.EbookReq;
+import com.zhuima.jawawiki.resp.CommonResp;
+import com.zhuima.jawawiki.resp.EbookResp;
 import com.zhuima.jawawiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,11 @@ public class EbookController {
 
 
     @GetMapping("ebooks")
-    public List<Ebook> list(EbookReq req) {
-        return ebookService.list(req);
+    public CommonResp list(EbookReq req) {
+        CommonResp<List<EbookResp>> resp = new CommonResp<>();
+        List<EbookResp> list = ebookService.list(req);
+        resp.setContent(list);
+        return resp;
     }
 
 
@@ -31,3 +36,4 @@ public class EbookController {
         return ebookService.getById(id);
     }
 }
+
