@@ -7,6 +7,7 @@ import com.zhuima.jawawiki.domain.Ebook;
 import com.zhuima.jawawiki.domain.EbookExample;
 import com.zhuima.jawawiki.mapper.EbookMapper;
 import com.zhuima.jawawiki.req.EbookReq;
+import com.zhuima.jawawiki.req.EbookSaveReq;
 import com.zhuima.jawawiki.resp.EbookResp;
 import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.util.CopyUtil;
@@ -51,6 +52,21 @@ public class EbookService {
     }
 
 
+    /**
+     * 新增
+     * @param req
+     */
+    public void save(EbookSaveReq req){
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if (ObjectUtils.isEmpty((req.getId()))) {
+            // 新增
+            ebookMapper.insert(ebook);
+        } else {
+            // 更新
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
+
+    }
     public Ebook getById(Long id) {
         return ebookMapper.selectByPrimaryKey(id);
     }
