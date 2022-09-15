@@ -37,9 +37,9 @@ insert into `ebook` (id, name, description) values (5, 'Nodejs 入门教程', '�
 
 
 # 分类
-drop table if exists `categroy`;
+drop table if exists `category`;
 
-create table `categroy` (
+create table `category` (
      `id` bigint NOT NULL auto_increment comment 'id',
      `parent` bigint NOT NULL default 0 comment '父id',
      `name` varchar(50)  comment '名称',
@@ -49,22 +49,22 @@ create table `categroy` (
 ) engine=InnoDB default charset=utf8mb4 comment='分类';
 
 
-insert into `categroy` (id, parent, name, sort) values (100, 000, '前端开发', 100);
-insert into `categroy` (id, parent, name, sort) values (101, 100, 'Vue', 101);
-insert into `categroy` (id, parent, name, sort) values (102, 000, 'HTML & CSS', 102);
-insert into `categroy` (id, parent, name, sort) values (200, 000, 'JAVA', 200);
-insert into `categroy` (id, parent, name, sort) values (201, 200, '基础应用', 201);
-insert into `categroy` (id, parent, name, sort) values (202, 200, '框架应用', 202);
-insert into `categroy` (id, parent, name, sort) values (300, 000, 'Python', 300);
-insert into `categroy` (id, parent, name, sort) values (301, 300, '爬虫应用', 301);
-insert into `categroy` (id, parent, name, sort) values (302, 300, '进阶方向应用', 302);
-insert into `categroy` (id, parent, name, sort) values (400, 000, '数据库', 400);
-insert into `categroy` (id, parent, name, sort) values (401, 400, 'MySQL应用', 401);
-insert into `categroy` (id, parent, name, sort) values (402, 400, '其他', 402);
-insert into `categroy` (id, parent, name, sort) values (500, 000, '服务器', 500);
-insert into `categroy` (id, parent, name, sort) values (501, 500, '系统应用', 501);
-insert into `categroy` (id, parent, name, sort) values (502, 500, '业务应用', 502);
-insert into `categroy` (id, parent, name, sort) values (503, 500, 'SRE应用', 503);
+insert into `category` (id, parent, name, sort) values (100, 000, '前端开发', 100);
+insert into `category` (id, parent, name, sort) values (101, 100, 'Vue', 101);
+insert into `category` (id, parent, name, sort) values (102, 000, 'HTML & CSS', 102);
+insert into `category` (id, parent, name, sort) values (200, 000, 'JAVA', 200);
+insert into `category` (id, parent, name, sort) values (201, 200, '基础应用', 201);
+insert into `category` (id, parent, name, sort) values (202, 200, '框架应用', 202);
+insert into `category` (id, parent, name, sort) values (300, 000, 'Python', 300);
+insert into `category` (id, parent, name, sort) values (301, 300, '爬虫应用', 301);
+insert into `category` (id, parent, name, sort) values (302, 300, '进阶方向应用', 302);
+insert into `category` (id, parent, name, sort) values (400, 000, '数据库', 400);
+insert into `category` (id, parent, name, sort) values (401, 400, 'MySQL应用', 401);
+insert into `category` (id, parent, name, sort) values (402, 400, '其他', 402);
+insert into `category` (id, parent, name, sort) values (500, 000, '服务器', 500);
+insert into `category` (id, parent, name, sort) values (501, 500, '系统应用', 501);
+insert into `category` (id, parent, name, sort) values (502, 500, '业务应用', 502);
+insert into `category` (id, parent, name, sort) values (503, 500, 'SRE应用', 503);
 
 
 

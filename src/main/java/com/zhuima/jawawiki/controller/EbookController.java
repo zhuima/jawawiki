@@ -2,7 +2,7 @@ package com.zhuima.jawawiki.controller;
 
 
 import com.zhuima.jawawiki.domain.Ebook;
-import com.zhuima.jawawiki.req.EbookReq;
+import com.zhuima.jawawiki.req.EbookQueryReq;
 import com.zhuima.jawawiki.req.EbookSaveReq;
 import com.zhuima.jawawiki.resp.CommonResp;
 import com.zhuima.jawawiki.resp.EbookResp;
@@ -40,7 +40,7 @@ public class EbookController {
      * @return
      */
     @GetMapping("ebooks")
-    public CommonResp list(@Valid EbookReq req) {
+    public CommonResp list(@Valid EbookQueryReq req) {
         CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
         PageResp<EbookResp> list = ebookService.list(req);
         resp.setContent(list);
@@ -53,7 +53,7 @@ public class EbookController {
      * @param id
      * @return
      */
-    @GetMapping("ebooks/{id}")
+    @GetMapping("ebook/{id}")
     public Ebook getById(@PathVariable Long id) {
         return ebookService.getById(id);
     }
@@ -64,7 +64,7 @@ public class EbookController {
      * @param id
      * @return
      */
-    @DeleteMapping ("ebooks/{id}")
+    @DeleteMapping ("ebook/{id}")
     public CommonResp deleteById(@PathVariable Long id) {
         CommonResp resp = new CommonResp<>();
         ebookService.deleteById(id);

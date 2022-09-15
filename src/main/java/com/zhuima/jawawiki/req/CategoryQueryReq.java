@@ -1,12 +1,17 @@
 package com.zhuima.jawawiki.req;
 
+
 import lombok.Data;
 
 @Data
-public class EbookReq extends PageReq {
+public class CategoryQueryReq extends PageReq {
     private Long id;
 
+    private Long parent;
+
     private String name;
-    private String description;
+
+    private Integer sort;
+
 
 }
