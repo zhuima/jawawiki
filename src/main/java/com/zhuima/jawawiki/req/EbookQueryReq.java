@@ -9,4 +9,7 @@ public class EbookQueryReq extends PageReq {
     private String name;
     private String description;
 
+
+    private Long categoryId2;
+
 }

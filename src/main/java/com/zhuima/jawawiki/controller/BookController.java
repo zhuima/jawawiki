@@ -18,7 +18,7 @@ public class BookController {
     private BookService bookService;
 
 
-    @GetMapping("book_list")
+    @GetMapping("books")
     public List<Book> list() {
         return bookService.list();
     }
