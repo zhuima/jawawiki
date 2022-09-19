@@ -81,4 +81,18 @@ public class DocService {
     public int deleteById(Long id) {
         return docMapper.deleteByPrimaryKey(id);
     }
+
+
+    /**
+     * 删除一批文档
+     *
+     * @param ids
+     * @return
+     */
+    public int deleteByIds(List<String> ids) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
+        return docMapper.deleteByExample(docExample);
+    }
 }

@@ -4,14 +4,16 @@ package com.zhuima.jawawiki.controller;
 import com.zhuima.jawawiki.domain.Doc;
 import com.zhuima.jawawiki.req.DocQueryReq;
 import com.zhuima.jawawiki.req.DocSaveReq;
-import com.zhuima.jawawiki.resp.DocResp;
 import com.zhuima.jawawiki.resp.CommonResp;
+import com.zhuima.jawawiki.resp.DocResp;
 import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.service.DocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -71,6 +73,18 @@ public class DocController {
         return resp;
     }
 
+    /**
+     * 删除一批文档
+     * @param ids
+     * @return
+     */
+    @DeleteMapping ("doc/list/{ids}")
+    public CommonResp deleteByIds(@PathVariable String ids) {
+        CommonResp resp = new CommonResp<>();
+        List<String> list = Arrays.asList(ids.split(","));
+        docService.deleteByIds(list);
+        return resp;
+    }
 
 
 }
