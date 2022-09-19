@@ -93,6 +93,17 @@ insert into `doc` (id,ebook_id,parent, name, sort, view_count, vote_count) value
 
 
 
+# 文档内容
+drop table if exists `content`;
+
+create table `content` (
+   `id` bigint NOT NULL auto_increment comment '文档id',
+   `content` mediumtext not null comment '内容',
+   primary key (`id`)
+
+) engine=InnoDB default charset=utf8mb4 comment='文档内容';
+
+
 
 
 

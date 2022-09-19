@@ -2,14 +2,17 @@ package com.zhuima.jawawiki.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zhuima.jawawiki.domain.Content;
 import com.zhuima.jawawiki.domain.Doc;
 import com.zhuima.jawawiki.domain.DocExample;
+import com.zhuima.jawawiki.mapper.ContentMapper;
 import com.zhuima.jawawiki.mapper.DocMapper;
 import com.zhuima.jawawiki.req.DocQueryReq;
 import com.zhuima.jawawiki.req.DocSaveReq;
 import com.zhuima.jawawiki.resp.DocResp;
 import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.util.CopyUtil;
+import com.zhuima.jawawiki.util.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -20,6 +23,14 @@ import java.util.List;
 public class DocService {
     @Autowired
     private DocMapper docMapper;
+
+
+    @Autowired
+    private ContentMapper contentMapper;
+
+    @Autowired
+    private SnowFlake snowFlake;
+
 
     public PageResp<DocResp> list(DocQueryReq req) {
 
@@ -52,12 +63,20 @@ public class DocService {
      */
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty((req.getId()))) {
             // 新增
+            doc.setId(snowFlake.nextId());
             docMapper.insert(doc);
+
+            content.setId(doc.getId());
+            contentMapper.insert(content);
+
+
         } else {
             // 更新
             docMapper.updateByPrimaryKey(doc);
+            contentMapper.updateByPrimaryKeyWithBLOBs(content);
         }
 
     }
