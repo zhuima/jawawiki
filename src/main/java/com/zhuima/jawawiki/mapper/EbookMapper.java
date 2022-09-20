@@ -2,8 +2,9 @@ package com.zhuima.jawawiki.mapper;
 
 import com.zhuima.jawawiki.domain.Ebook;
 import com.zhuima.jawawiki.domain.EbookExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EbookMapper {
     long countByExample(EbookExample example);

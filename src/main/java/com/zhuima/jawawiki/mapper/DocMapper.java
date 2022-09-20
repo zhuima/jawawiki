@@ -2,8 +2,10 @@ package com.zhuima.jawawiki.mapper;
 
 import com.zhuima.jawawiki.domain.Doc;
 import com.zhuima.jawawiki.domain.DocExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 
 public interface DocMapper {
     long countByExample(DocExample example);

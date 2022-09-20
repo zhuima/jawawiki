@@ -2,8 +2,10 @@ package com.zhuima.jawawiki.mapper;
 
 import com.zhuima.jawawiki.domain.Category;
 import com.zhuima.jawawiki.domain.CategoryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 
 public interface CategoryMapper {
     long countByExample(CategoryExample example);
