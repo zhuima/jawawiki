@@ -13,6 +13,8 @@ import com.zhuima.jawawiki.resp.DocResp;
 import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.util.CopyUtil;
 import com.zhuima.jawawiki.util.SnowFlake;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -21,6 +23,9 @@ import java.util.List;
 
 @Service
 public class DocService {
+    private static final Logger logger = LoggerFactory.getLogger(DocService.class);
+
+
     @Autowired
     private DocMapper docMapper;
 
@@ -71,8 +76,6 @@ public class DocService {
 
             content.setId(doc.getId());
             contentMapper.insert(content);
-
-
         } else {
             // 更新
             docMapper.updateByPrimaryKey(doc);
@@ -114,4 +117,40 @@ public class DocService {
         criteria.andIdIn(ids);
         return docMapper.deleteByExample(docExample);
     }
+
+    /**
+     * 查找文档内容
+     * @param id
+     * @return
+     */
+    public String findContent(Long id) {
+        Content content = contentMapper.selectByPrimaryKey(id);
+        if (ObjectUtils.isEmpty(content)) {
+            return "";
+        } else {
+            return content.getContent();
+
+        }
+    }
+
+
+    /**
+     * 获取一本书的所有文档
+     * @param ebookId
+     * @return
+     */
+    public List<DocResp> all(Long ebookId) {
+        DocExample docExample = new DocExample();
+        docExample.createCriteria().andEbookIdEqualTo(ebookId);
+        docExample.setOrderByClause("sort asc");
+        List<Doc> docList = docMapper.selectByExample(docExample);
+
+        // 列表复制
+        List<DocResp> list = CopyUtil.copyList(docList, DocResp.class);
+
+
+        logger.info("list --->{}", list.toString());
+        return list;
+    }
+
 }

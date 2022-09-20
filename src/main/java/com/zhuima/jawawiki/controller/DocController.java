@@ -8,6 +8,8 @@ import com.zhuima.jawawiki.resp.CommonResp;
 import com.zhuima.jawawiki.resp.DocResp;
 import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.service.DocService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class DocController {
+    private static final Logger logger = LoggerFactory.getLogger(DocService.class);
+
 
     @Autowired
     private DocService docService;
@@ -34,6 +38,22 @@ public class DocController {
         docService.save(req);
         return resp;
     }
+
+
+    /**
+     * 获取一本书的所有文档
+     * @param ebookId
+     * @return
+     */
+    @GetMapping("all/{ebookId}")
+    public CommonResp all(@PathVariable Long ebookId) {
+        CommonResp<List<DocResp>> resp = new CommonResp<>();
+        List<DocResp> list = docService.all(ebookId);
+        logger.info("controller list --->{}", list.toString());
+        resp.setContent(list);
+        return resp;
+    }
+
 
 
     /**
@@ -86,6 +106,19 @@ public class DocController {
         return resp;
     }
 
+
+    /**
+     * 获取文档内容
+     * @param id
+     * @return
+     */
+    @GetMapping("doc/find-content/{id}")
+    public CommonResp findContent(@PathVariable Long id) {
+        CommonResp<String> resp = new CommonResp<>();
+        String  content = docService.findContent(id) ;
+        resp.setContent(content);
+        return resp;
+    }
 
 }
 
