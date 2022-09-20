@@ -2,11 +2,12 @@ drop table if exists `user`;
 
 create table user
 (
-    `id`       bigint       not null primary key comment 'id',
-    `email`    varchar(255) null comment '邮箱',
+    `id`       bigint       not null  comment 'ID',
+    `login_name` varchar(50) not null comment '登录名',
+    `username` varchar(255) null comment '昵称',
     `password` varchar(255) null comment '密码',
-    `phone`    varchar(255) null comment '手机号',
-    `username` varchar(255) null comment '昵称'
+    primary key (`id`),
+    unique key `login_name_unique` (`login_name`)
 ) engine=InnoDB default CHARSET=utf8mb4 comment='用户';
 
 
