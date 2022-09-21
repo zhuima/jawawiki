@@ -7,9 +7,12 @@ import com.zhuima.jawawiki.domain.UserExample;
 import com.zhuima.jawawiki.exception.BusinessException;
 import com.zhuima.jawawiki.exception.BusinessExceptionCode;
 import com.zhuima.jawawiki.mapper.UserMapper;
+import com.zhuima.jawawiki.req.UserLoginReq;
 import com.zhuima.jawawiki.req.UserQueryReq;
+import com.zhuima.jawawiki.req.UserResetPasswordReq;
 import com.zhuima.jawawiki.req.UserSaveReq;
 import com.zhuima.jawawiki.resp.PageResp;
+import com.zhuima.jawawiki.resp.UserLoginResp;
 import com.zhuima.jawawiki.resp.UserResp;
 import com.zhuima.jawawiki.util.CopyUtil;
 import com.zhuima.jawawiki.util.SnowFlake;
@@ -25,7 +28,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserMapper userMapper;
@@ -43,8 +46,8 @@ public class UserService {
         List<User> userList = userMapper.selectByExample(userExample);
 
         PageInfo<User> pageInfo = new PageInfo<>(userList);
-        LOG.info("总行数：{}", pageInfo.getTotal());
-        LOG.info("总页数：{}", pageInfo.getPages());
+        logger.info("总行数：{}", pageInfo.getTotal());
+        logger.info("总页数：{}", pageInfo.getPages());
 
 
         // 列表复制
@@ -93,6 +96,50 @@ public class UserService {
             return userList.get(0);
         }
     }
+
+
+    /**
+     * 修改密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
+
+    }
+
+
+    /**
+     * 删除用户
+     * @param id
+     */
+    public void delete(Long id) {
+        userMapper.deleteByPrimaryKey(id);
+    }
+
+
+    /**
+     * 登录
+     */
+    public UserLoginResp login(UserLoginReq req) {
+        User userDb = selectByLoginName(req.getLoginName());
+        if (ObjectUtils.isEmpty(userDb)) {
+            // 用户名不存在
+            logger.info("用户名不存在, {}", req.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else {
+            if (userDb.getPassword().equals(req.getPassword())) {
+                // 登录成功
+                UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
+                return userLoginResp;
+            } else {
+                // 密码不对
+                logger.info("密码不对, 输入密码：{}, 数据库密码：{}", req.getPassword(), userDb.getPassword());
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
+    }
+
+
 
 
 }
