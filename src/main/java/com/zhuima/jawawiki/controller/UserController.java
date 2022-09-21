@@ -8,6 +8,7 @@ import com.zhuima.jawawiki.resp.PageResp;
 import com.zhuima.jawawiki.resp.UserResp;
 import com.zhuima.jawawiki.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,8 @@ public class UserController {
      */
     @PostMapping("users")
     public CommonResp save(@Valid @RequestBody UserSaveReq req) {
+        // 密码加密操作
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp resp = new CommonResp<>();
         userService.save(req);
         return resp;
