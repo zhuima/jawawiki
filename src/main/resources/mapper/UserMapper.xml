@@ -2,16 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhuima.jawawiki.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.zhuima.jawawiki.domain.User">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="account" jdbcType="VARCHAR" property="account" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="contact" jdbcType="VARCHAR" property="contact" />
-    <result column="state" jdbcType="BIT" property="state" />
-    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-    <result column="super_manager" jdbcType="TINYINT" property="superManager" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="CHAR" property="password" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,8 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account, `password`, `name`, contact, `state`, insert_time, update_time, last_login_time, 
-    super_manager
+    id, login_name, `username`, `password`
   </sql>
   <select id="selectByExample" parameterType="com.zhuima.jawawiki.domain.UserExample" resultMap="BaseResultMap">
     select
@@ -89,6 +82,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByExample" parameterType="com.zhuima.jawawiki.domain.UserExample">
     delete from user
     <if test="_parameter != null">
@@ -96,14 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zhuima.jawawiki.domain.User">
-    insert into user (id, account, `password`, 
-      `name`, contact, `state`, insert_time, 
-      update_time, last_login_time, super_manager
-      )
-    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{insertTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{superManager,jdbcType=TINYINT}
-      )
+    insert into user (id, login_name, `username`,
+                      `password`)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+            #{password,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zhuima.jawawiki.domain.User">
     insert into user
@@ -111,64 +110,28 @@
       <if test="id != null">
         id,
       </if>
-      <if test="account != null">
-        account,
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="username != null">
+        `username`,
       </if>
       <if test="password != null">
         `password`,
       </if>
-      <if test="name != null">
-        `name`,
-      </if>
-      <if test="contact != null">
-        contact,
-      </if>
-      <if test="state != null">
-        `state`,
-      </if>
-      <if test="insertTime != null">
-        insert_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="lastLoginTime != null">
-        last_login_time,
-      </if>
-      <if test="superManager != null">
-        super_manager,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
-      <if test="account != null">
-        #{account,jdbcType=VARCHAR},
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="contact != null">
-        #{contact,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=BIT},
-      </if>
-      <if test="insertTime != null">
-        #{insertTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastLoginTime != null">
-        #{lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="superManager != null">
-        #{superManager,jdbcType=TINYINT},
+        #{password,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -182,34 +145,16 @@
     update user
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.account != null">
-        account = #{record.account,jdbcType=VARCHAR},
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        `username` = #{record.username,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
-        `password` = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null">
-        `name` = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.contact != null">
-        contact = #{record.contact,jdbcType=VARCHAR},
-      </if>
-      <if test="record.state != null">
-        `state` = #{record.state,jdbcType=BIT},
-      </if>
-      <if test="record.insertTime != null">
-        insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.lastLoginTime != null">
-        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.superManager != null">
-        super_manager = #{record.superManager,jdbcType=TINYINT},
+        `password` = #{record.password,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -218,18 +163,34 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user
-    set id = #{record.id,jdbcType=INTEGER},
-      account = #{record.account,jdbcType=VARCHAR},
-      `password` = #{record.password,jdbcType=VARCHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      contact = #{record.contact,jdbcType=VARCHAR},
-      `state` = #{record.state,jdbcType=BIT},
-      insert_time = #{record.insertTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
-      super_manager = #{record.superManager,jdbcType=TINYINT}
+    set id = #{record.id,jdbcType=BIGINT},
+    login_name = #{record.loginName,jdbcType=VARCHAR},
+    `username` = #{record.username,jdbcType=VARCHAR},
+    `password` = #{record.password,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhuima.jawawiki.domain.User">
+    update user
+    <set>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        `username` = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhuima.jawawiki.domain.User">
+    update user
+    set login_name = #{loginName,jdbcType=VARCHAR},
+        `username` = #{username,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

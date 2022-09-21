@@ -1,7 +1,6 @@
 drop table if exists `user`;
 
-create table user
-(
+create table `user` (
     `id`       bigint       not null  comment 'ID',
     `login_name` varchar(50) not null comment '登录名',
     `username` varchar(255) null comment '昵称',

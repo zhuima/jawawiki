@@ -2,8 +2,9 @@ package com.zhuima.jawawiki.mapper;
 
 import com.zhuima.jawawiki.domain.User;
 import com.zhuima.jawawiki.domain.UserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     long countByExample(UserExample example);
@@ -19,4 +20,6 @@ public interface UserMapper {
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
     int updateByExample(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByPrimaryKeySelective(User record);
 }

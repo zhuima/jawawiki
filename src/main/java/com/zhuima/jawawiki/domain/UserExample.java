@@ -744,6 +744,11 @@ public class UserExample {
             addCriterion("super_manager not between", value1, value2, "superManager");
             return (Criteria) this;
         }
+
+        public Criteria andLoginNameEqualTo(String value) {
+            addCriterion("login_name =", value, "loginName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -751,6 +756,8 @@ public class UserExample {
             super();
         }
     }
+
+
 
     public static class Criterion {
         private String condition;
